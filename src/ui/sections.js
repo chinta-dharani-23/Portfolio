@@ -113,7 +113,6 @@ function contact(d) {
     isTodo(c.github) ? '' : `<a class="link-tile" href="${esc(url(c.github))}" target="_blank" rel="noopener"><span>GitHub</span><b>${esc(c.github)}</b></a>`,
     isTodo(c.linkedin) ? '' : `<a class="link-tile" href="${esc(url(c.linkedin))}" target="_blank" rel="noopener"><span>LinkedIn</span><b>${esc(c.linkedin)}</b></a>`,
     isTodo(c.leetcode) ? '' : `<a class="link-tile" href="${esc(url(c.leetcode))}" target="_blank" rel="noopener"><span>LeetCode</span><b>${esc(c.leetcode)}</b></a>`,
-    isTodo(c.resume) ? '' : `<a class="link-tile" href="${esc(url(c.resume))}" target="_blank" rel="noopener"><span>Resume</span><b>Open my resume</b></a>`,
   ].join('')
   return heading('Contact', 'SAY HELLO') + `<p>${esc(c.message)}</p>` +
     (tiles ? `<div class="link-tiles">${tiles}</div>` : '<p class="soft">Email, GitHub and LinkedIn links are being added.</p>')
