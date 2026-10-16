@@ -96,7 +96,6 @@ export const PORTFOLIO = {
     github: 'github.com/chinta-dharani-23',
     linkedin: 'linkedin.com/in/chinta-dharani-3673962a5',
     leetcode: 'leetcode.com/u/Chinta_Dharani',
-    resume: 'https://drive.google.com/file/d/1cdNA2Um0qvrQdUfISDVaAii2VC1sHVPt/view?usp=sharing',
   },
 
   // The code typed on the laptop screen at the top of the page. Keep each line short.
