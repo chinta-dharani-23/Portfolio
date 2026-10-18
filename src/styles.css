@@ -146,6 +146,8 @@ p { color: var(--muted); margin: 14px 0 0; }
 .tile .ico { transition: transform 0.3s cubic-bezier(.2, .7, .2, 1); }
 .tile:hover .ico { transform: translateZ(0) scale(1.12) rotate(-3deg); }
 .ico { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; font: 800 15px var(--display); letter-spacing: -0.02em; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); }
+.ico.logo { background: #f4f1ff; padding: 8px; }
+.ico.logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .tile b { font: 600 12px/1.25 var(--body); color: var(--fg); }
 
 /* contact */

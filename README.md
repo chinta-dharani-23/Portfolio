@@ -1,60 +1,65 @@
-# Chinta Dharani: 3D Developer Portfolio
+# Chinta Dharani
 
-A portfolio website with a 3D desk scene. As a visitor scrolls, the camera moves around the desk and each section appears beside it: About, Journey, Projects, Skills and Contact. Built with Three.js and Vite.
+**Full-stack & AI developer** · B.Tech Computer Science and Business Systems (2023 to 2027) · G. Pulla Reddy Engineering College, Kurnool · CGPA 8.21 / 10
 
-## The one file you edit
+I build full-stack web applications with React and Spring Boot, and GenAI tools with the Gemini API. I am looking for an entry-level Software Developer role.
 
-`src/data/portfolio.js` holds all the words on the site. Any text that starts with `TODO` stays hidden until you replace it with the real thing. Fill in:
+**Portfolio website:** https://chinta-dharani-23.github.io/Portfolio/
 
-- CGPA
-- Internship role titles and dates
-- GitHub link for each project
-- Email, GitHub, LinkedIn and resume link
-- Your programming languages (see the TODO line in `skills`)
+---
 
-## Add project screenshots (optional)
+## Experience
 
-Take a screenshot of each live project, put the picture in the `public` folder, and write its file name in `src/data/portfolio.js` on the `image:` line of that project, for example `image: 'lab.png'`. It then replaces the plain title picture in the project card.
+**Java Full-Stack Intern, Infosys Springboard Virtual Internship 7.0** (Jul 2026 to Sep 2026)
+Worked in a 3-person team on a lab management platform. Built booking, resource management and role-based features with React, Java, Spring Boot and PostgreSQL, fixed permission edge cases, and containerized the app with Docker for live deployment on Render.
 
-## Run it on your computer
+**AI & Cyber Security Intern, Indian Servers Pvt. Ltd.** (May 2026 to Jun 2026)
+8-week internship on generative AI applications and cyber security fundamentals. Trained in GenAI, Computer Vision, network security and workflow automation (n8n, Make.com), and built a working prototype with prompt engineering and fallback safety controls.
 
-1. Install Node.js (the LTS version) from https://nodejs.org
-2. Open a terminal in this folder.
-3. Run `npm install` (only the first time).
-4. Run `npm run dev` and open the address it prints (usually http://localhost:5173).
+## Projects
 
-## Put it online with GitHub Pages (free)
+### Lab Resource Utilization Platform
+Full-stack platform for managing lab equipment across departments: bookings, maintenance tracking and usage metrics.
 
-1. Create a new repository on github.com, for example `portfolio`.
-2. Upload all these files to it, keeping the same folders. The folder `.github/workflows` with `deploy.yml` inside must be included. Because its name starts with a dot, your file manager may hide it.
-3. On GitHub, open **Settings**, then **Pages**, and set **Source** to **GitHub Actions**.
-4. Open the **Actions** tab and wait for "Deploy to GitHub Pages" to finish (about one minute).
-5. Your site is live at `https://YOUR-USERNAME.github.io/portfolio/`. Put this link on your resume.
+- Six user roles with role-based access control
+- Automated waitlist, issue reporting and maintenance tracking
+- Real-time utilization heatmaps and no-show analytics
+- Docker, Render and Neon PostgreSQL deployment
 
-Every time you edit a file and push it, the site updates itself.
+Tech: React, Spring Boot, PostgreSQL, Neon, Docker, Render
+[Live demo](https://lab-resource-utilization-platform-team4.onrender.com/) · Code is private because of the Infosys internship rules
 
-## What each file does
+### MedGuardian AI
+AI healthcare assistant that answers clinical queries, explains medical reports and analyses diagnostic images, with fallback safety controls, privacy notices and medical disclaimers.
 
-| File | Job |
+Tech: Gemini API, Gradio, Python, Render
+[Live demo](https://medgaurdian-ai.onrender.com/) · [Source code](https://github.com/chinta-dharani-23/medgaurdian-ai)
+
+## Skills
+
+| Area | Skills |
 | --- | --- |
-| `index.html` | The page shell and fonts |
-| `src/main.js` | Starts everything |
-| `src/data/portfolio.js` | **Your content** |
-| `src/ui/sections.js` | Turns your content into the page sections |
-| `src/styles.css` | Colours, fonts and layout |
-| `src/state.js` | Remembers which section the visitor is on |
-| `src/data/skillIcons.js` | Colours and labels for the skill icons |
-| `src/scene/index.js` | Sets up the 3D world and the animation loop |
-| `src/scene/desk.js` | The desk |
-| `src/scene/laptop.js` | The laptop. Its screen changes for each section |
-| `src/scene/props.js` | Mug, phone, glowing button, purple device, headphones |
-| `src/scene/lighting.js` | Lights, reflections and the glow under the desk |
-| `src/scene/cameraPath.js` | Where the camera goes for each section |
-| `src/scene/helpers.js` | Shared tools for building rounded shapes |
-| `.github/workflows/deploy.yml` | Publishes the site to GitHub Pages |
+| Languages | Java, JavaScript, SQL, C, Python (basics) |
+| Frameworks and web | Spring Boot, React, REST APIs, HTML5, CSS3 |
+| Databases and tools | PostgreSQL, MySQL, Docker, Render, Git, GitHub |
+| AI | Gemini API, Gradio, Prompt engineering |
 
-## Change the look
+## Certifications
 
-- Colours: the `:root` block at the top of `src/styles.css`.
-- Camera angles: the `STOPS` list in `src/scene/cameraPath.js`.
-- Order or wording of sections: `src/ui/sections.js` and `src/data/portfolio.js`.
+Infosys Springboard: Java Foundation, Programming Using Java, DSA using Java, Database Management System, Introduction to AI, Basics of Python.
+Also: Google Data Analytics (Foundations) on Coursera, Java, Python and HTML (Spoken Tutorial), HTML and CSS (ThingQbator).
+
+## About this portfolio
+
+A scroll-driven 3D portfolio. A 3D desk and laptop sit behind the page, and as you scroll, the camera moves around the desk while the laptop screen changes for each section. It also has floating tech icons, drifting glow particles, scroll fade-ins and tilting project cards. It works on phones, and visitors who prefer reduced motion get a calm version.
+
+Built with **Three.js**, **Vite** and plain JavaScript, and deployed automatically to **GitHub Pages** with GitHub Actions.
+
+To run it on your computer: install Node.js, then run `npm install` and `npm run dev`.
+
+## Contact
+
+- Email: dharanichintha23@gmail.com
+- LinkedIn: [linkedin.com/in/chinta-dharani-3673962a5](https://www.linkedin.com/in/chinta-dharani-3673962a5)
+- GitHub: [github.com/chinta-dharani-23](https://github.com/chinta-dharani-23)
+- LeetCode: [leetcode.com/u/Chinta_Dharani](https://leetcode.com/u/Chinta_Dharani)

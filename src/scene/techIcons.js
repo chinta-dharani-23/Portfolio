@@ -1,9 +1,9 @@
 // Floating tech icons around the laptop on the first screen: Java, Spring Boot, React and PostgreSQL.
 // They bob gently, lean towards the mouse, and shrink away when the visitor scrolls past the top.
-// To change which icons float, edit the ICONS list. The colours come from src/data/skillIcons.js.
+// To change which icons float, edit the ICONS list. The logos come from src/data/skillIcons.js.
 import * as THREE from 'three'
 import { panel, std } from './helpers.js'
-import { skillStyle } from '../data/skillIcons.js'
+import { skillStyle, skillLogo } from '../data/skillIcons.js'
 import { state } from '../state.js'
 
 const ICONS = [
@@ -13,38 +13,57 @@ const ICONS = [
   { name: 'PostgreSQL', at: [-2.5, 1.6, 1.4] },
 ]
 
-function labelTexture(glyph, name, fg) {
+// The picture on the front of a chip: the real logo, with the name underneath.
+// The logo loads a moment later, so the texture is refreshed when it arrives.
+function labelTexture(name) {
   const c = document.createElement('canvas')
   c.width = c.height = 256
   const g = c.getContext('2d')
-  g.textAlign = 'center'
-  g.fillStyle = fg
-  g.font = '800 112px system-ui, "Segoe UI", sans-serif'
-  g.fillText(glyph, 128, 140)
-  g.globalAlpha = 0.85
-  g.font = '600 34px system-ui, "Segoe UI", sans-serif'
-  g.fillText(name, 128, 205)
   const tex = new THREE.CanvasTexture(c)
   tex.encoding = THREE.sRGBEncoding
   tex.anisotropy = 4
+
+  const drawName = () => {
+    g.fillStyle = '#2b2350'
+    g.textAlign = 'center'
+    g.font = '700 34px system-ui, "Segoe UI", sans-serif'
+    g.fillText(name, 128, 222)
+  }
+
+  const url = skillLogo(name)
+  if (url) {
+    drawName()
+    const img = new Image()
+    img.onload = () => {
+      g.drawImage(img, 56, 24, 144, 144)
+      tex.needsUpdate = true
+    }
+    img.src = url
+  } else {
+    const [glyph] = skillStyle(name)
+    g.fillStyle = '#2b2350'
+    g.textAlign = 'center'
+    g.font = '800 112px system-ui, "Segoe UI", sans-serif'
+    g.fillText(glyph, 128, 150)
+    drawName()
+  }
   return tex
 }
 
 export function createTechIcons(rig, reduceMotion) {
   const group = new THREE.Group()
   rig.add(group)
-  const SIZE = 0.62
+  const SIZE = 0.66
   const DEPTH = 0.16
 
   const items = ICONS.map((icon, i) => {
-    const [glyph, bg, fg] = skillStyle(icon.name)
     const chip = new THREE.Group()
-    const body = panel(SIZE, SIZE, DEPTH, 0.14, std({ color: bg, roughness: 0.4, metalness: 0.1, emissive: bg, emissiveIntensity: 0.1, toneMapped: false }), 0.03)
+    const body = panel(SIZE, SIZE, DEPTH, 0.14, std({ color: 0xf4f1ff, roughness: 0.35, metalness: 0.05, emissive: 0xf4f1ff, emissiveIntensity: 0.12, toneMapped: false }), 0.03)
     body.castShadow = false
     chip.add(body)
     const face = new THREE.Mesh(
       new THREE.PlaneGeometry(SIZE * 0.92, SIZE * 0.92),
-      new THREE.MeshBasicMaterial({ map: labelTexture(glyph, icon.name, fg), transparent: true, toneMapped: false })
+      new THREE.MeshBasicMaterial({ map: labelTexture(icon.name), transparent: true, toneMapped: false })
     )
     face.position.z = DEPTH / 2 + 0.005
     chip.add(face)

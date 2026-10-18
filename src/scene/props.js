@@ -1,6 +1,6 @@
-// The small things on the desk: mug with steam, phone, glowing button, purple device, headphones.
+// The small things on the desk: mug with steam, phone, glowing button, headphones.
 import * as THREE from 'three'
-import { std, slab, panel, glowTexture } from './helpers.js'
+import { std, slab, glowTexture } from './helpers.js'
 
 function addMug(rig) {
   const mug = new THREE.Group()
@@ -98,17 +98,6 @@ function addButton(rig) {
   return (t) => ring.material.color.setHSL(0.57, 1, 0.55 + Math.sin(t * 2) * 0.08)
 }
 
-function addDevice(rig) {
-  const cube = panel(0.95, 1.05, 0.95, 0.16, std({ color: 0x4a2fd6, roughness: 0.4, metalness: 0.1, envMapIntensity: 0.4, emissive: 0x1d0f6a, emissiveIntensity: 0.5 }), 0.03)
-  cube.position.set(-2.65, 0.52, -1.15)
-  cube.rotation.y = 0.35
-  rig.add(cube)
-
-  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 16), new THREE.MeshBasicMaterial({ color: 0xc8a2ff, toneMapped: false }))
-  dot.position.set(-2.65 + 0.18, 0.62, -1.15 + 0.46)
-  rig.add(dot)
-}
-
 function addHeadphones(rig) {
   const group = new THREE.Group()
   group.position.set(2.5, 0.62, -1.25)
@@ -140,7 +129,6 @@ export function createProps(rig, reduceMotion) {
   const steamStep = addMug(rig)
   addPhone(rig)
   const buttonStep = addButton(rig)
-  addDevice(rig)
   addHeadphones(rig)
   return {
     update(t) {

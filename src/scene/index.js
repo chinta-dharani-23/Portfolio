@@ -43,13 +43,13 @@ export function startScene(canvas, data) {
   })
 
   // A warm glow that moves to whatever object matches the current section:
-  // none at the top, then the mug (about), laptop (journey and projects), purple device (skills), phone (contact).
+  // none at the top, then the mug (about), laptop (journey, projects and skills), phone (contact).
   const glow = new THREE.Sprite(
     new THREE.SpriteMaterial({ map: glowTexture('rgba(255,190,90,A)', '.9'), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 })
   )
   glow.scale.set(2.2, 2.2, 1)
   rig.add(glow)
-  const GLOW_AT = [null, [-2.05, 0.6, 0.95], [0.1, 1.0, -0.2], [0.1, 1.0, -0.2], [-2.65, 0.75, -1.1], [1.85, 0.3, 1.0]]
+  const GLOW_AT = [null, [-2.05, 0.6, 0.95], [0.1, 1.0, -0.2], [0.1, 1.0, -0.2], [0.1, 1.0, -0.2], [1.85, 0.3, 1.0]]
   const goal = new THREE.Vector3()
 
   function resize() {

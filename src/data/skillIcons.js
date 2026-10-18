@@ -1,28 +1,59 @@
-// Colours and short labels for the skill icons. A skill that is not listed here still works:
-// it gets its first two letters on a violet tile. No levels or percentages are shown, only the skills themselves.
-const ICONS = {
-  Java: ['Jv', '#f89820', '#1b1206'],
-  JavaScript: ['JS', '#f7df1e', '#1b1b1b'],
-  SQL: ['SQL', '#7d8cc4', '#ffffff'],
-  C: ['C', '#6d8bd9', '#ffffff'],
-  'Python (basics)': ['Py', '#4b8bbe', '#ffffff'],
-  'Spring Boot': ['SB', '#6db33f', '#10200a'],
-  React: ['Re', '#61dafb', '#08202a'],
-  'REST APIs': ['API', '#ff6c37', '#ffffff'],
-  HTML5: ['H5', '#e34f26', '#ffffff'],
-  CSS3: ['C3', '#1572b6', '#ffffff'],
-  PostgreSQL: ['Pg', '#336791', '#ffffff'],
-  MySQL: ['My', '#00758f', '#ffffff'],
-  Docker: ['Dk', '#2496ed', '#ffffff'],
-  Render: ['Rn', '#46e3b7', '#06231b'],
-  Git: ['Git', '#f05032', '#ffffff'],
-  GitHub: ['GH', '#e8e4f5', '#14101f'],
-  'Gemini API': ['Gem', '#8e75ff', '#ffffff'],
-  Gradio: ['Gr', '#ff9a2e', '#2a1700'],
-  'Prompt engineering': ['PE', '#c084fc', '#ffffff'],
-  'VS Code': ['VS', '#2f80ed', '#ffffff'],
-  Eclipse: ['Ec', '#2c2255', '#ffffff'],
+// Icons for the skills.
+// 1. LOGOS: the real logos, stored in src/data/logos.js (from the free Devicon and Simple Icons sets).
+//    To add one, add its picture to logos.js and a line below: 'Skill name': 'name-used-in-logos.js'.
+// 2. ICONS: a short label on a coloured tile. It is the backup for skills that have no logo,
+//    like "SQL" or "REST APIs", and a skill that is in neither list gets its first two letters.
+// No levels or percentages are shown, only the skills themselves.
+import { LOGO_FILES } from './logos.js'
+
+const LOGOS = {
+  Java: 'java',
+  JavaScript: 'javascript',
+  C: 'c',
+  'Python (basics)': 'python',
+  'Spring Boot': 'spring-boot',
+  React: 'react',
+  HTML5: 'html5',
+  CSS3: 'css3',
+  PostgreSQL: 'postgresql',
+  MySQL: 'mysql',
+  Docker: 'docker',
+  Git: 'git',
+  GitHub: 'github',
+  'VS Code': 'vscode',
+  Eclipse: 'eclipse',
+  'Gemini API': 'gemini',
+  Gradio: 'gradio',
+  Render: 'render',
 }
+
+const ICONS = {
+  SQL: ['SQL', '#7d8cc4', '#ffffff'],
+  'REST APIs': ['API', '#ff6c37', '#ffffff'],
+  'Prompt engineering': ['PE', '#c084fc', '#ffffff'],
+}
+
+// the address of a skill's logo file, or null when it has none
+export function skillLogo(name) {
+  const key = LOGOS[name]
+  return (key && LOGO_FILES[key]) || null
+}
+
+// the same logo as a loaded picture, for drawing on the 3D screens. Null until it has finished loading.
+const pictures = {}
+export function skillLogoImage(name) {
+  const url = skillLogo(name)
+  if (!url || typeof Image === 'undefined') return null
+  if (!pictures[name]) {
+    pictures[name] = new Image()
+    pictures[name].src = url
+  }
+  const img = pictures[name]
+  return img.complete && img.naturalWidth > 0 ? img : null
+}
+
+// start loading every logo straight away so they are ready when the visitor reaches them
+Object.keys(LOGOS).forEach((n) => skillLogoImage(n))
 
 // returns [label, background colour, text colour]
 export function skillStyle(name) {

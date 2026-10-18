@@ -1,6 +1,6 @@
 // Turns the content in src/data/portfolio.js into the page: navigation, sections and footer.
 // Text that still starts with TODO is skipped, so visitors never see placeholders.
-import { skillStyle } from '../data/skillIcons.js'
+import { skillStyle, skillLogo } from '../data/skillIcons.js'
 import { SECTION_IDS, state } from '../state.js'
 
 const isTodo = (s) => !s || /^TODO/i.test(String(s).trim())
@@ -97,6 +97,8 @@ function skills(d) {
           ? `<div class="chips">${g[1].map((i) => `<span>${esc(i)}</span>`).join('')}</div>`
           : `<div class="tiles">${g[1]
               .map((name) => {
+                const logo = skillLogo(name)
+                if (logo) return `<div class="tile"><span class="ico logo"><img src="${esc(logo)}" alt="" loading="lazy"></span><b>${esc(name)}</b></div>`
                 const [glyph, bg, fg] = skillStyle(name)
                 return `<div class="tile"><span class="ico" style="background:${bg};color:${fg}">${esc(glyph)}</span><b>${esc(name)}</b></div>`
               })

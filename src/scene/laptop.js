@@ -3,7 +3,7 @@
 // Everything drawn on the screen comes from src/data/portfolio.js.
 import * as THREE from 'three'
 import { std, slab, panel } from './helpers.js'
-import { skillStyle } from '../data/skillIcons.js'
+import { skillStyle, skillLogoImage } from '../data/skillIcons.js'
 
 const VIOLET = '#b39dff'
 const GOLD = '#ffcf7a'
@@ -186,12 +186,18 @@ function makeScreens(d) {
       const x = 22 + col * 100
       const y = 64 + row * 108
       rrect(g, x, y, 90, 96, 14, 'rgba(255,255,255,.06)')
-      const [glyph, bg, fg] = skillStyle(n)
-      rrect(g, x + 22, y + 10, 46, 46, 12, bg)
-      g.fillStyle = fg
-      g.font = '800 17px sans-serif'
+      const logo = skillLogoImage(n)
       g.textAlign = 'center'
-      g.fillText(glyph, x + 45, y + 40)
+      if (logo) {
+        rrect(g, x + 22, y + 10, 46, 46, 12, '#f4f1ff')
+        g.drawImage(logo, x + 29, y + 17, 32, 32)
+      } else {
+        const [glyph, bg, fg] = skillStyle(n)
+        rrect(g, x + 22, y + 10, 46, 46, 12, bg)
+        g.fillStyle = fg
+        g.font = '800 17px sans-serif'
+        g.fillText(glyph, x + 45, y + 40)
+      }
       g.fillStyle = WHITE
       g.font = '600 12px sans-serif'
       g.fillText(fit(g, n, 82), x + 45, y + 78)
