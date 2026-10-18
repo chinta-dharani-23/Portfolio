@@ -148,6 +148,82 @@ function highlightActive(index) {
   document.querySelectorAll('.dots button').forEach((b) => b.classList.toggle('on', b.dataset.id === id))
 }
 
+// Scroll and mouse effects. Everything here is optional polish: if it fails, the page still reads fine.
+function setupEffects() {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const canHover = window.matchMedia('(hover: hover)').matches
+
+  // 1. Fade and slide in when something scrolls into view
+  const items = document.querySelectorAll(
+    '.panel > *:not(.timeline):not(.facts):not(.tiles):not(.link-tiles), .tl, .fact, .project, .tile, .link-tile'
+  )
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach((el) => el.classList.add('in'))
+  } else {
+    items.forEach((el) => {
+      const pos = Array.prototype.indexOf.call(el.parentElement.children, el)
+      el.classList.add('rv')
+      el.style.setProperty('--d', Math.min(pos, 6) * 70 + 'ms')
+    })
+    const seen = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return
+          const el = e.target
+          el.classList.add('in')
+          seen.unobserve(el)
+          // after it has arrived, hover effects should react at once, so drop the entrance delay
+          setTimeout(() => el.style.setProperty('--d', '0ms'), 1200)
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+    )
+    items.forEach((el) => seen.observe(el))
+  }
+
+  // 2. Cards tilt towards the mouse and a soft light follows the pointer
+  if (canHover && !reduce) {
+    document.querySelectorAll('.project, .tile, .link-tile').forEach((card) => {
+      const max = card.classList.contains('project') ? 7 : 12
+      card.classList.add('spot', 'lift')
+      card.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return
+        const r = card.getBoundingClientRect()
+        const x = (e.clientX - r.left) / r.width
+        const y = (e.clientY - r.top) / r.height
+        card.classList.add('hot')
+        card.style.setProperty('--ry', ((x - 0.5) * max).toFixed(2) + 'deg')
+        card.style.setProperty('--rx', ((0.5 - y) * max * 0.8).toFixed(2) + 'deg')
+        card.style.setProperty('--mx', (x * 100).toFixed(1) + '%')
+        card.style.setProperty('--my', (y * 100).toFixed(1) + '%')
+      })
+      card.addEventListener('pointerleave', () => {
+        card.classList.remove('hot')
+        card.style.setProperty('--rx', '0deg')
+        card.style.setProperty('--ry', '0deg')
+      })
+    })
+  }
+
+  // 3. Progress bar at the top of the page
+  const bar = document.getElementById('progress')
+  if (bar) {
+    let queued = false
+    const draw = () => {
+      queued = false
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`
+    }
+    window.addEventListener('scroll', () => {
+      if (!queued) {
+        queued = true
+        requestAnimationFrame(draw)
+      }
+    }, { passive: true })
+    draw()
+  }
+}
+
 export function renderPage(d) {
   const [first, ...rest] = d.name.split(' ')
   document.getElementById('nav').innerHTML =
@@ -174,4 +250,5 @@ export function renderPage(d) {
   window.addEventListener('sectionchange', (e) => highlightActive(e.detail))
   highlightActive(state.section)
   countUp()
+  setupEffects()
 }

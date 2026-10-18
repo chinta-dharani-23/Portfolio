@@ -4,6 +4,8 @@ import { addLighting } from './lighting.js'
 import { createDesk } from './desk.js'
 import { createLaptop } from './laptop.js'
 import { createProps } from './props.js'
+import { createTechIcons } from './techIcons.js'
+import { createParticles } from './particles.js'
 import { createCameraPath } from './cameraPath.js'
 import { glowTexture } from './helpers.js'
 import { state } from '../state.js'
@@ -28,7 +30,17 @@ export function startScene(canvas, data) {
   createDesk(rig)
   const laptop = createLaptop(rig, data, reduceMotion)
   const props = createProps(rig, reduceMotion)
+  const icons = createTechIcons(rig, reduceMotion)
+  const dust = createParticles(scene, reduceMotion)
   const path = createCameraPath(camera, reduceMotion)
+
+  // Where the mouse is, from -1 to 1 on each side. Touch screens are ignored on purpose.
+  const pointer = { x: 0, y: 0 }
+  window.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return
+    pointer.x = (e.clientX / window.innerWidth - 0.5) * 2
+    pointer.y = (e.clientY / window.innerHeight - 0.5) * 2
+  })
 
   // A warm glow that moves to whatever object matches the current section:
   // none at the top, then the mug (about), laptop (journey and projects), purple device (skills), phone (contact).
@@ -50,13 +62,21 @@ export function startScene(canvas, data) {
   const clock = new THREE.Clock()
   function frame() {
     const t = clock.getElapsedTime()
-    if (!reduceMotion) rig.rotation.y = Math.sin(t * 0.25) * 0.05
+    if (!reduceMotion) {
+      // the whole desk leans a little towards the mouse, on top of its slow sway
+      const turn = pointer.x * 0.05 + Math.sin(t * 0.25) * 0.03
+      const tilt = -pointer.y * 0.025
+      rig.rotation.y += (turn - rig.rotation.y) * 0.05
+      rig.rotation.x += (tilt - rig.rotation.x) * 0.05
+    }
     laptop.update(t, state.section)
     const at = GLOW_AT[state.section]
     if (at) goal.set(at[0], at[1], at[2])
     glow.position.lerp(goal, 0.08)
     glow.material.opacity += ((at ? 0.55 + (reduceMotion ? 0 : Math.sin(t * 2) * 0.12) : 0) - glow.material.opacity) * 0.1
     props.update(t)
+    icons.update(t, pointer)
+    dust.update(t)
     path.update(t)
     renderer.render(scene, camera)
     requestAnimationFrame(frame)
